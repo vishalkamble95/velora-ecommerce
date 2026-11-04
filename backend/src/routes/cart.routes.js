@@ -9,6 +9,7 @@ import {
 
 import { authenticate } from "../middleware/auth.middleware.js";
 import { validateBody } from "../middleware/validate.middleware.js";
+import { authorize } from "../middleware/authorize.middleware.js";
 
 import {
   addToCartSchema,
@@ -18,7 +19,7 @@ import {
 const router = express.Router();
 
 // All cart APIs require authentication
-router.use(authenticate);
+router.use(authenticate, authorize("user"));
 
 // Get user's cart
 router.get("/", getCart);

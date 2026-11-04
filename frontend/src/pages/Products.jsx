@@ -4,6 +4,7 @@ import {
   useProducts,
   useProductCategories,
 } from "../features/products/useProducts";
+import useDebounce from "../hooks/useDebounce";
 
 import ProductCard from "../components/products/ProductCard";
 import Loader from "../components/common/Loader";
@@ -26,10 +27,12 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("");
   const [page, setPage] = useState(1);
 
+  const debouncedSearch = useDebounce(search, 500);
+
   const { data: categoryData } = useProductCategories();
 
   const { data, isLoading, isError } = useProducts({
-    search,
+    search: debouncedSearch,
     category,
     minPrice,
     maxPrice,

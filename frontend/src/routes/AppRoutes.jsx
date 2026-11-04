@@ -21,6 +21,8 @@ import AdminDashboard from "../admin/AdminDashboard";
 import AdminProducts from "../admin/AdminProducts";
 import AdminOrders from "../admin/AdminOrders";
 
+import NotFound from "../pages/NotFound";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -47,6 +49,9 @@ const AppRoutes = () => {
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
         </Route>
+
+        {/* 404 Route */}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

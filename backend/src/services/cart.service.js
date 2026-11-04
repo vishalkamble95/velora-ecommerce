@@ -30,6 +30,12 @@ export const getCart = async (userId) => {
 
 // Add product to cart
 export const addToCart = async (userId, productId, quantity) => {
+  if (!Number.isInteger(quantity) || quantity < 1) {
+    const error = new Error("Quantity must be a positive integer");
+    error.statusCode = 400;
+    throw error;
+  }
+
   if (!mongoose.isValidObjectId(productId)) {
     const error = new Error("Invalid product ID");
     error.statusCode = 400;
@@ -89,6 +95,12 @@ export const addToCart = async (userId, productId, quantity) => {
 
 // Update product quantity
 export const updateCartItem = async (userId, productId, quantity) => {
+  if (!Number.isInteger(quantity) || quantity < 1) {
+    const error = new Error("Quantity must be a positive integer");
+    error.statusCode = 400;
+    throw error;
+  }
+
   if (!mongoose.isValidObjectId(productId)) {
     const error = new Error("Invalid product ID");
     error.statusCode = 400;

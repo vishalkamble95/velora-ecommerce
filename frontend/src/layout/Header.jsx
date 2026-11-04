@@ -58,6 +58,7 @@ const Header = () => {
         </button>
 
         {/* Navigation */}
+
         <nav
           id="main-navigation"
           className={`header-nav ${isMenuOpen ? "menu-open" : ""}`}
@@ -74,7 +75,7 @@ const Header = () => {
             Products
           </NavLink>
 
-          {isAuthenticated ? (
+          {isAuthenticated && user?.role === "user" && (
             <>
               <NavLink
                 to="/cart"
@@ -99,45 +100,39 @@ const Header = () => {
               >
                 Profile
               </NavLink>
-
-              {user?.role === "admin" && (
-                <>
-                  <NavLink
-                    to="/admin"
-                    className={getNavLinkClass}
-                    end
-                    onClick={closeMenu}
-                  >
-                    Dashboard
-                  </NavLink>
-
-                  <NavLink
-                    to="/admin/products"
-                    className={getNavLinkClass}
-                    onClick={closeMenu}
-                  >
-                    Manage Products
-                  </NavLink>
-
-                  <NavLink
-                    to="/admin/orders"
-                    className={getNavLinkClass}
-                    onClick={closeMenu}
-                  >
-                    Manage Orders
-                  </NavLink>
-                </>
-              )}
-
-              <button
-                className="header-logout-button"
-                onClick={handleLogout}
-                disabled={isLoggingOut}
-              >
-                {isLoggingOut ? "Logging out..." : "Logout"}
-              </button>
             </>
-          ) : (
+          )}
+
+          {isAuthenticated && user?.role === "admin" && (
+            <>
+              <NavLink
+                to="/admin"
+                className={getNavLinkClass}
+                end
+                onClick={closeMenu}
+              >
+                Dashboard
+              </NavLink>
+
+              <NavLink
+                to="/admin/products"
+                className={getNavLinkClass}
+                onClick={closeMenu}
+              >
+                Manage Products
+              </NavLink>
+
+              <NavLink
+                to="/admin/orders"
+                className={getNavLinkClass}
+                onClick={closeMenu}
+              >
+                Manage Orders
+              </NavLink>
+            </>
+          )}
+
+          {!isAuthenticated && (
             <div className="header-auth-links">
               <NavLink
                 to="/login"
@@ -155,6 +150,16 @@ const Header = () => {
                 Register
               </NavLink>
             </div>
+          )}
+
+          {isAuthenticated && (
+            <button
+              className="header-logout-button"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              {isLoggingOut ? "Logging out..." : "Logout"}
+            </button>
           )}
 
           {error && <p className="header-error">{error}</p>}

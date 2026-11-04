@@ -181,6 +181,12 @@ export const updateOrderStatus = async (orderId, orderStatus, adminId) => {
     createdBy: adminId,
   });
 
+  if (adminProductIds.length === 0) {
+    const error = new Error("No products found for this admin");
+    error.statusCode = 404;
+    throw error;
+  }
+
   const order = await Order.findOne({
     _id: orderId,
     "items.product": { $in: adminProductIds },

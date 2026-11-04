@@ -28,7 +28,7 @@ const ProductDetails = () => {
   const [cartError, setCartError] = useState("");
   const [cartSuccess, setCartSuccess] = useState("");
 
-  const { data, isLoading, isError } = useProduct(id);
+  const { data, isLoading, isError, error, refetch } = useProduct(id);
 
   const addToCartMutation = useAddToCart();
 
@@ -37,9 +37,25 @@ const ProductDetails = () => {
   }
 
   if (isError || !data?.product) {
+    const isNotFound = error?.response?.status === 404 || !data?.product;
+
     return (
       <div className="product-details-error">
-        <ErrorMessage message="Product not found or failed to load." />
+        <ErrorMessage
+          message={
+            isNotFound
+              ? "Product not found. It may have been removed."
+              : "Failed to load product. Please try again."
+          }
+        />
+
+        <div className="product-details-actions">
+          <Button onClick={() => navigate("/products")}>
+            Back to Products
+          </Button>
+
+          {!isNotFound && <Button onClick={() => refetch()}>Retry</Button>}
+        </div>
       </div>
     );
   }

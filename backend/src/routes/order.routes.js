@@ -8,12 +8,13 @@ import {
 
 import { authenticate } from "../middleware/auth.middleware.js";
 import { validateBody } from "../middleware/validate.middleware.js";
+import { authorize } from "../middleware/authorize.middleware.js";
 import { createOrderSchema } from "../validators/order.validator.js";
 
 const router = express.Router();
 
 // All order APIs require login
-router.use(authenticate);
+router.use(authenticate, authorize("user"));
 
 // Checkout
 router.post("/", validateBody(createOrderSchema), createOrder);

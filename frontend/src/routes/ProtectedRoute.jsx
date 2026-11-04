@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import Loader from "../components/common/Loader";
 
 const ProtectedRoute = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return <Loader />;
@@ -11,6 +11,10 @@ const ProtectedRoute = () => {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (user?.role !== "user") {
+    return <Navigate to="/admin" replace />;
   }
 
   return <Outlet />;
